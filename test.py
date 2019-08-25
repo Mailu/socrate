@@ -1,5 +1,6 @@
 import unittest
 import io
+import os
 
 from socrate import conf, system
 
@@ -78,3 +79,15 @@ class TestSystem(unittest.TestCase):
             system.resolve_address("1.2.3.4.xip.io:80"),
             "1.2.3.4:80"
         )
+
+#    def get_host_address_from_environment(self):
+#        os.environ.remove("TEST_ADDRESS")
+#        os.environ.remove("HOST_TEST")
+#        self.assertEqual(
+#            system.get_host_address_from_environment("TEST","one.one.one.two:80"),
+#            "1.1.1.4:80"
+#        )
+
+
+if __name__ == "__main__":
+    unittest.main()
