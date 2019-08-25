@@ -68,13 +68,13 @@ class TestSystem(unittest.TestCase):
     """
 
     def test_resolve_hostname(self):
-        self.assertEqual(
+        self.assertIn(
             system.resolve_hostname("one.one.one.one"),
-            "1.1.1.1"
+            ("1.1.1.1", "1.0.0.1")
         )
 
     def test_resolve_address(self):
-        self.assertEqual(
+        self.assertIn(
             system.resolve_address("one.one.one.one:80"),
-            "1.1.1.1:80"
+            ("1.1.1.1:80", "1.0.0.1:80")
         )
