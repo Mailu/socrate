@@ -80,13 +80,28 @@ class TestSystem(unittest.TestCase):
             "1.2.3.4:80"
         )
 
-#    def get_host_address_from_environment(self):
-#        os.environ.remove("TEST_ADDRESS")
-#        os.environ.remove("HOST_TEST")
-#        self.assertEqual(
-#            system.get_host_address_from_environment("TEST","one.one.one.two:80"),
-#            "1.1.1.4:80"
-#        )
+    def test_get_host_address_from_environment(self):
+        if "TEST_ADDRESS" in os.environ:
+            del os.environ["TEST_ADDRESS"]
+        if "HOST_TEST" in os.environ:
+            del os.environ["HOST_TEST"]
+        # if nothing is set, the default must be resolved
+        self.assertEqual(
+            system.get_host_address_from_environment("TEST", "1.2.3.4.xip.io:80"),
+            "1.2.3.4:80"
+        )
+        # if HOST is set, the HOST must be resolved
+        os.environ['HOST_TEST']="1.2.3.5.xip.io:80"
+        self.assertEqual(
+            system.get_host_address_from_environment("TEST", "1.2.3.4.xip.io:80"),
+            "1.2.3.5:80"
+        )
+        # if ADDRESS is set, the ADDRESS must be returned unresolved
+        os.environ['TEST_ADDRESS']="1.2.3.6.xip.io:80"
+        self.assertEqual(
+            system.get_host_address_from_environment("TEST", "1.2.3.4.xip.io:80"),
+            "1.2.3.6.xip.io:80"
+        )
 
 
 if __name__ == "__main__":

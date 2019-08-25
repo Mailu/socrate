@@ -29,4 +29,4 @@ def get_host_address_from_environment(name, default):
     """
     if "{}_ADDRESS".format(name) in environ:
         return environ.get("{}_ADDRESS".format(name))
-    return resolve_address(environ.get("HOST_{}".format(name),default))
+    return resolve_address(environ.get("HOST_{}".format(name), default))
