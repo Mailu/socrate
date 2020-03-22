@@ -8,7 +8,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="socrate",
-    version="0.2.0",
+    version="0.2.1",
     description="Socrate daemon utilities",
     long_description=long_description,
     long_description_content_type="text/markdown",
