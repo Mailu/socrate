@@ -2,6 +2,7 @@ import unittest
 import io
 import os
 
+import socket
 from socrate import conf, system
 
 
@@ -71,13 +72,22 @@ class TestSystem(unittest.TestCase):
     def test_resolve_hostname(self):
         self.assertEqual(
             system.resolve_hostname("1.2.3.4.xip.io"),
-            "1.2.3.4"
+            ("1.2.3.4", socket.AF_INET)
         )
+        self.assertEqual(
+            system.resolve_hostname("2a01-4f8-c17-b8f--2.sslip.io"),
+            ("2a01:4f8:c17:b8f::2", socket.AF_INET6)
+        )
+
 
     def test_resolve_address(self):
         self.assertEqual(
             system.resolve_address("1.2.3.4.xip.io:80"),
             "1.2.3.4:80"
+        )
+        self.assertEqual(
+            system.resolve_address("2a01-4f8-c17-b8f--2.sslip.io:80"),
+            "[2a01:4f8:c17:b8f::2]:80"
         )
 
     def test_get_host_address_from_environment(self):
