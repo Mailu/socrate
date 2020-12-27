@@ -1,5 +1,6 @@
 import socket
 import tenacity
+import urllib.parse
 from os import environ
 import logging as log
 
@@ -23,15 +24,16 @@ def resolve_address(address):
     resolving an address, i.e. including a port.
     """
 
-    hostname, *rest = address.rsplit(":", 1)
-    ports = "".join(":" + port for port in rest)
+    # urlparse() and urlsplit() insists on absolute URLs starting with "//"
+    result = urllib.parse.urlsplit('//{}'.format(address))
+    hostname, port = result.hostname, result.port
     
     ip_address, address_family = resolve_hostname(hostname)
 
     if address_family is socket.AF_INET6:
-        return "[{}]{}".format(ip_address, ports)
+        return "[{}]:{}".format(ip_address, port)
 
-    return ip_address + ports
+    return "{}:{}".format(ip_address, port)
 
 
 def get_host_address_from_environment(name, default):
